@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Algorithm for Generating the Largest Entrance Code">
+    <meta name="author" content="Ananya Mohapatra">
+    <title>Generating the Largest Entrance Code</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        h2 {
+            color: #D8BFD8; /* Baby purple color */
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #D8BFD8;
+            background-color: #ffffff;
+        }
+        .section-page {
+            margin-bottom: 20px;
+        }
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flowchart div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #D8BFD8;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .oval {
+            border-radius: 50%;
+            width: 120px;
+            height: 50px;
+            text-align: center;
+        }
+        .parallelogram {
+            width: 250px;
+            height: 50px;
+            transform: skewX(-20deg);
+            text-align: center;
+        }
+        .rectangle-rounded {
+            border-radius: 10px;
+            width: 300px;
+            height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="section-page">
+            <h2>Generating the Largest Entrance Code</h2>
+            <p>In a university, every student is given a student ID and a university enrolment number. Both of these contain digits (0-9). The student ID has <strong>M</strong> digits, and the university enrolment number has <strong>N</strong> digits. Every subject is assigned a unique subject code. When developing a student examination hall entrance system, the system must take the student ID, the university enrolment number, and the subject code <strong>P</strong> for which the student is taking an examination.</p>
+            <p>The goal is to generate the largest entrance code of length <strong>P</strong> using digits from the student ID and university enrolment number. The relative order of digits from both sources must be preserved.</p>
+            <p>Write an algorithm to find the largest number of length <strong>P</strong> made up of digits from the student ID and the university enrolment number.</p>
+            
+            <h2>Flowchart:</h2>
+            <div class="flowchart">
+                <div class="oval">Start</div>
+                <div class="rectangle-rounded">Input Student ID, University Enrolment Number, and P</div>
+                <div class="parallelogram">Merge Digits from Both Numbers</div>
+                <div class="rectangle-rounded">Generate the Largest Number of Length P</div>
+                <div class="parallelogram">Output the Entrance Code</div>
+                <div class="oval">End</div>
+            </div>
+
+            <h2>Pseudocode:</h2>
+            <p>Start</p>
+            <p>Input the student ID, university enrolment number, and the length <strong>P</strong> for the entrance code.</p>
+            <p>Merge the digits from the student ID and university enrolment number while preserving their order.</p>
+            <p>Generate the largest number of length <strong>P</strong> from the merged digits.</p>
+            <p>Output the largest number as the entrance code.</p>
+            <p>End</p>
+
+            <h2>Algorithm:</h2>
+            <p>1. Input the student ID, university enrolment number, and the length <strong>P</strong> for the entrance code.</p>
+            <p>2. Merge the digits from the student ID and university enrolment number while preserving their order.</p>
+            <p>3. Use a stack to build the largest number of length <strong>P</strong> from the merged digits:</p>
+            <ul>
+                <li>Initialize an empty stack and a variable to track the number of digits to be removed.</li>
+                <li>Iterate through each digit of the merged digits:</li>
+                <li>If the stack is not empty and the current digit is greater than the top digit of the stack, and you can still remove digits, pop the top digit from the stack.</li>
+                <li>Push the current digit onto the stack.</li>
+                <li>Once you have processed all digits, trim the stack to the desired length <strong>P</strong>.</li>
+            </ul>
+            <p>4. Output the largest number of length <strong>P</strong> as the entrance code.</p>
+
+            <h2>Java Implementation:</h2>
+            <pre><code>
+public class EntranceCodeGenerator 
+{
+    public static String generateLargestCode(String studentID, String enrolmentNumber, int P) 
+    {
+        String digits = studentID + enrolmentNumber;
+        int n = digits.length();
+        Stack<Character> stack = new Stack<>();
+        int toRemove = n - P;
+
+        for (char digit : digits.toCharArray()) 
+        {
+            while (!stack.isEmpty() && stack.peek() < digit && toRemove > 0) 
+            {
+                stack.pop();
+                toRemove--;
+            }
+            stack.push(digit);
+        }
+
+        // Convert stack to string and trim to length P
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < P; i++) 
+        {
+            result.append(stack.get(i));
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) 
+    {
+        // Test cases
+        System.out.println(generateLargestCode("123456", "789", 5)); // Example output: "98765"
+        System.out.println(generateLargestCode("54321", "09876", 4)); // Example output: "5432"
+    }
+}
+            </code></pre>
+        </section>
+    </div>
+</body>
+</html>

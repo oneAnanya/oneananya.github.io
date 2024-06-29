@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solving Right Rotation Word Problem">
+    <meta name="author" content="Your Name">
+    <title>Solving Right Rotation Word Problem</title>    
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        h2 {
+            color: #D8BFD8; /* Baby purple color */
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.603);
+        }
+        .section-page {
+            margin-bottom: 20px;
+        }
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flowchart div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #D8BFD8;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .oval {
+            border-radius: 50%;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+        }
+        .parallelogram {
+            width: 200px;
+            height: 50px;
+            transform: skewX(-20deg);
+            text-align: center;
+        }
+        .rectangle-rounded {
+            border-radius: 10px;
+            width: 250px;
+            height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="section-page">
+            <h2>Right Rotation Word Problem</h2>
+            <p>Charlie has a magic mirror. The mirror shows right-rotated versions of a given word.</p>
+            <p>To generate different right-rotations of a word, write the word in a circle in clockwise order, then start reading from any given character in clockwise order till you have covered all the characters.</p>
+            <p>For example: In the word "sample", if we start with 'p', we get the right rotated word as "plesam". There are six such right rotations of "sample" including itself.</p>
+            <p>The inputs to the function <code>isSameReflection</code> consists of two strings, <code>word1</code> and <code>word2</code>. The function returns 1 if <code>word1</code> and <code>word2</code> are right rotations of the same word and -1 if they are not. Both <code>word1</code> and <code>word2</code> will strictly contain lowercase letters only.</p>
+
+            <h2>Flowchart:</h2>
+            <div class="flowchart">
+                <div class="oval">Start</div>
+                <div class="rectangle-rounded">Check Lengths of word1 and word2</div>
+                <div class="parallelogram">Are Lengths Equal?</div>
+                <div class="rectangle-rounded">Concatenate word1 with itself</div>
+                <div class="rectangle-rounded">Check if concatenated string contains word2</div>
+                <div class="parallelogram">Contains word2?</div>
+                <div class="oval">End</div>
+            </div>
+
+            <h2>Pseudocode:</h2>
+            <p>Start</p>
+            <p>Check if lengths of word1 and word2 are equal</p>
+            <p>If not equal, return -1</p>
+            <p>Concatenate word1 with itself</p>
+            <p>Check if concatenated string contains word2</p>
+            <p>If it contains word2, return 1</p>
+            <p>Else, return -1</p>
+            <p>End</p>
+
+            <h2>Algorithm:</h2>
+            <p>1. Check if the lengths of <code>word1</code> and <code>word2</code> are equal.</p>
+            <p>2. If the lengths are not equal, return -1.</p>
+            <p>3. Concatenate <code>word1</code> with itself.</p>
+            <p>4. Check if the concatenated string contains <code>word2</code> as a substring.</p>
+            <p>5. If it does, return 1.</p>
+            <p>6. Otherwise, return -1.</p>
+
+            <h2>Java Implementation:</h2>
+            <pre><code>
+public class MagicMirror 
+{
+    public static int isSameReflection(String word1, String word2) 
+    {
+        // If the lengths of the words are different, they can't be rotations of each other
+        if (word1.length() != word2.length()) 
+        {
+            return -1;
+        }
+        
+        // Concatenate word1 with itself
+        String concatenated = word1 + word1;
+        
+        // Check if word2 is a substring of the concatenated word1
+        if (concatenated.contains(word2)) 
+        {
+            return 1;
+        } 
+        else 
+        {
+            return -1;
+        }
+    }
+
+    public static void main(String[] args) 
+    {
+        // Test cases
+        System.out.println(isSameReflection("sample", "plesam")); // Should return 1
+        System.out.println(isSameReflection("sample", "maples")); // Should return -1
+        System.out.println(isSameReflection("sample", "lesamp")); // Should return 1
+        System.out.println(isSameReflection("sample", "samples")); // Should return -1
+    }
+}
+            </code></pre>
+        </section>
+    </div>
+</body>
+</html>

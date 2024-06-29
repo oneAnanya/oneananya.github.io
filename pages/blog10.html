@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sorting a 3x3 array">
+    <meta name="author" content="Ananya Mohapatra">
+    <title>Sorting a 3x3 array</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/main.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        h2 {
+            color: #D8BFD8; /* Baby purple color */
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.603);
+        }
+        .section-page {
+            margin-bottom: 20px;
+        }
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flowchart div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #D8BFD8;;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .oval {
+            border-radius: 50%;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+        }
+        .parallelogram {
+            width: 150px;
+            height: 50px;
+            transform: skewX(-20deg);
+            text-align: center;
+        }
+        .rectangle-rounded {
+            border-radius: 10px;
+            width: 200px;
+            height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="section-page">
+            <h2>Sorting a 3x3 Array</h2>
+            <p>Assume you have a 3x3 grid of numbers, like a small Sudoku puzzle. Numbers are in cells and your task is to rearrange these numbers so they go from the smallest to the largest through rows.</p>
+            <p>We can solve this using an easy way:</p>
+            <p>1. Initially, all the numbers that are on the grid will be written in one line just like when we list out all the numbers.</p>
+            <p>2. Following is already, we now need to put them into an ascending order.</p>
+            <p>3. Lastly, fill the sorted numbers into the 3x3 grids again by row filling.</p>
+            <p>To illustrate, if you had many cards with different digits on them and shuffled them to arrange them in sequence before then putting them back neatly across rows. So it’s like having several number cards which were jumbled until they were ordered numerically and then placed in straight lines once more, aren’t they?</p>
+            <p>This method will give us our initial number back but arranged in a proper manner hence making it easier for us to work with or understand. It feels like cleaning up your room or arranging your toys so that finding them becomes quite easy!</p>
+            
+            <h2>Flowchart:</h2>
+            <div class="flowchart">
+                <div class="oval">Start</div>
+                <div class="rectangle-rounded">Define 3x3 array</div>
+                <div class="parallelogram">Flatten array into 1D</div>
+                <div class="rectangle-rounded">Sort 1D array</div>
+                <div class="rectangle-rounded">Transform 1D array into 3x3 matrix</div>
+                <div class="oval">End</div>
+            </div>
+            
+            <h2>Shape Names:</h2>
+            <p>1. Start/End: Oval</p>
+            <p>2. Define 3x3 array: Rectangle with rounded corners</p>
+            <p>3. Flatten array into 1D: Parallelogram</p>
+            <p>4. Sort 1D array: Rectangle</p>
+            <p>5. Reshape 1D array into 3x3: Rectangle with rounded corners</p>
+
+            <h2>Pseudocode:</h2>
+            <p>Start</p>
+            <p>Define a 3x3 array</p>
+            <p>To flatten the array into a 1D array</p>
+            <p>Sort the 1D array</p>
+            <p>Reshape the sorted 1D array into a 3x3 array</p>
+            <p>End</p>
+
+            <h2>Algorithm:</h2>
+            <p>1. Define a 3x3 array.</p>
+            <p>2. The array is then flattened into a 1-Dimensional array.</p>
+            <p>3. Sort the 1D array.</p>
+            <p>4. Transform the sorted 1D array back into a 3x3 array.</p>
+
+            <h2>DFD-0:</h2>
+            <div class="flowchart">
+                <div class="oval">Start</div>
+                <div class="rectangle-rounded">Define 3x3 array</div>
+                <div class="parallelogram">Flatten array into 1D</div>
+                <div class="rectangle-rounded">Sort 1D array</div>
+                <div class="rectangle-rounded">Transform 1D array into 3x3 matrix</div>
+                <div class="oval">End</div>
+            </div>
+
+            <h2>DFD-1:</h2>
+            <div class="flowchart">
+                <div class="rectangle-rounded">Define 3x3 array</div>
+                <div class="parallelogram">Flatten array into 1D</div>
+                <div class="rectangle">Sort 1D array</div>
+                <div class="rectangle-rounded">Reshape 1D array into 3x3</div>
+            </div>
+
+            <h2>Use Case:</h2>
+            <p>- User initiates the sorting process.</p>
+            <p>- The program starts with declaring a 3×3 matrix.</p>
+            <p>- The array is converted into a one-dimensional array.</p>
+            <p>- The 1D array is sorted.</p>
+            <p>- The 1D array which has been sorted is reshaped into an array of size 3x3.</p>
+            <p>- The sorted 3x3 array is displayed to the user.</p>
+
+            <h2>SDLC 7 Stages:</h2>
+            <p>1. Planning: Define the need and purpose of sorting the given 3×3 array.</p>
+            <p>2. Analysis: Examine the array structure and determine the type of sorting to be used.</p>
+            <p>3. Design: Create the flowchart, pseudocode, algorithm, DFDs and use case.</p>
+            <p>4. Implementation: Implement the sorting algorithm and run it to sort the given list.</p>
+            <p>5. Testing: Check whether the sorting algorithm functions correctly for different inputs.</p>
+            <p>6. Deployment: Make the sorting program available to the users.</p>
+            <p>7. Maintenance: Maintain the program and make changes as necessary for optimization of performance and enhanced capabilities.</p>
+        </section>
+    </div>
+</body>
+</html>
