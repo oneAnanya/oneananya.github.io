@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Ananya Says</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/main.css">
+        <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+        <style>
+            .content {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            th, td {
+                border: 1px solid purple;
+                padding: 8px;
+                text-align: left;
+            }
+            h1, h2, h3 {
+                text-align: center;
+            }
+            .meta {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            @media (max-width: 600px) {
+                body {
+                    font-size: 14px;
+                }
+                .content {
+                    padding: 10px;
+                }
+                th, td {
+                    padding: 4px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div class="meta">
+                <p><strong>Author:</strong> [Author Name]</p>
+                <p><strong>Post Date:</strong> [Post Date]</p>
+            </div>
+            <h1>Institute Database and SQL Queries</h1>
+            <p>Let's say we have an Institute database with the following tables:</p>
+
+            <h2>1. Students Table</h2>
+            <p>This table contains basic information about the students.</p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Ankita</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Ananya</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Archita</td>
+                </tr>
+            </table>
+
+            <h2>2. Courses Table</h2>
+            <p>This table lists the courses each student is enrolled in along with the duration.</p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Course</th>
+                    <th>Duration</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>PGDCA</td>
+                    <td>6 months</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Full Stack</td>
+                    <td>6 months</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>BI</td>
+                    <td>8 months</td>
+                </tr>
+            </table>
+
+            <h2>3. Student-Hobby Table</h2>
+            <p>This table records the hobbies of each student.</p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Hobby</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Painting</td>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Reading</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Dancing</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Singing</td>
+                </tr>
+            </table>
+
+            <h2>4. Course-Teacher Table</h2>
+            <p>This table links courses to the teachers who teach them.</p>
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Teacher</th>
+                </tr>
+                <tr>
+                    <td>PGDCA</td>
+                    <td>Mr. Sharma</td>
+                </tr>
+                <tr>
+                    <td>Full Stack</td>
+                    <td>Mrs. Das</td>
+                </tr>
+                <tr>
+                    <td>BI</td>
+                    <td>Mr. Singh</td>
+                </tr>
+            </table>
+
+            <h2>5. Student-Teacher Table</h2>
+            <p>This table shows which teachers are associated with which students.</p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Teacher</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Mr. Sharma</td>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Mrs. Das</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Mrs. Das</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Mr. Singh</td>
+                </tr>
+            </table>
+
+            <h2>SQL Queries</h2>
+            <p>Sure! Let's play with SQL queries on the above tables in the "Institute" database.</p>
+
+            <h3>1. Query to Show All Data from the Students Table</h3>
+            <p><strong>SQL Query:</strong></p>
+            <pre><code>SELECT * FROM Students;</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Ankita</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Ananya</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Archita</td>
+                </tr>
+            </table>
+
+            <h3>2. Query with a HAVING Clause</h3>
+            <p>Let's use the Courses table and count the number of courses each teacher teaches, and then use HAVING to filter results.</p>
+            <p><strong>SQL Query:</strong></p>
+            <pre><code>SELECT Teacher, COUNT(Course) AS NumberOfCourses
+FROM CourseTeacher
+GROUP BY Teacher
+HAVING COUNT(Course) > 1;</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Teacher</th>
+                    <th>NumberOfCourses</th>
+                </tr>
+                <tr>
+                    <td>Mrs. Das</td>
+                    <td>2</td>
+                </tr>
+            </table>
+
+            <h3>3. Query to Perform a Table Join</h3>
+            <p>Join the Students and Courses tables to show student names along with the courses they are enrolled in.</p>
+            <p><strong>SQL Query:</strong></p>
+            <pre><code>SELECT Students.StudentID, Students.Name, Courses.Course, Courses.Duration
+FROM Students
+JOIN Courses ON Students.StudentID = Courses.StudentID;</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Duration</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Ankita</td>
+                    <td>PGDCA</td>
+                    <td>6 months</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Ananya</td>
+                    <td>Full Stack</td>
+                    <td>6 months</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Archita</td>
+                    <td>BI</td>
+                    <td>8 months</td>
+                </tr>
+            </table>
+
+            <h3>4. Query with Two Satisfying Conditions</h3>
+            <p>We want the students enrolled in the "Full Stack" course and whose duration is "6 months".</p>
+            <p><strong>SQL Query:</strong></p>
+            <pre><code>SELECT Students.StudentID, Students.Name, Courses.Course, Courses.Duration
+FROM Students
+JOIN Courses ON Students.StudentID = Courses.StudentID
+WHERE Courses.Course = 'Full Stack' AND Courses.Duration = '6 months';</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Duration</th>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Ananya</td>
+                    <td>Full Stack</td>
+                    <td>6 months</td>
+                </tr>
+            </table>
+
+            <h3>5. SQL Query for 2 Tables</h3>
+            <p>A query to find the names of students along with the names of their teachers.</p>
+            <p><strong>SQL Query:</strong></p>
+            <pre><code>SELECT S.StudentID, S.Name, T.Teacher
+FROM Students S
+JOIN StudentTeacher ST ON S.StudentID = ST.StudentID
+JOIN CourseTeacher CT ON ST.Teacher = CT.Teacher;</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Teacher</th>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Ankita</td>
+                    <td>Mr. Sharma</td>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Ankita</td>
+                    <td>Mrs. Das</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Ananya</td>
+                    <td>Mrs. Das</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Archita</td>
+                    <td>Mr. Singh</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

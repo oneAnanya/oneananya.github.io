@@ -9,25 +9,56 @@
     <title>Ananya Mohapatra</title>
     <link rel="stylesheet" type="text/css" media="screen" href="./styles/main.css">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+    <style>
+        /* Add custom styles for blog section */
+        #blogs-wrapper {
+            display: flex;
+            max-height: 300px; /* Limiting the height to enable scrolling */
+            overflow-x: auto; /* Enable vertical scrolling */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        #blogs-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .card--blog {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .card--blog h3 {
+            margin-bottom: 5px;
+        }
+        .card--blog p {
+            margin-bottom: 10px;
+        }
+        .card--blog a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div id="container--main">
-        <section id = "wrapper--hero" class="section-page">
-            <img id = "profile-pic" src="./assets/images/profile-pic.avif" alt="" srcset="">
+        <section id="wrapper--hero" class="section-page">
+            <img id="profile-pic" src="./assets/images/profile-pic.avif" alt="" srcset="">
 
             <div>
-                <p id = "bio">Aspiring Software Developer<br> Pursuing graduation @ COEB, Bhubaneswar 📚</p>
-                <p id = "email">👉 ananyamohapatra61@gmail.com</p>
+                <p id="bio">Aspiring Software Developer<br> Pursuing graduation @ COEB, Bhubaneswar 📚</p>
+                <p id="email">👉 ananyamohapatra61@gmail.com</p>
             </div>
         </section>
 
-        <section id = "section--page">
-            <div id = "socials--list">
-                <a href = "./pages/blog1.html">Blogs</a>
-                <!--<a href = "#" target = "_blank">Twitter</a>-->
-                <!--<a href = "#" target = "_blank">LinkedIn</a>-->
-                <a href = "https://github.com/oneAnanya" target = "_blank">Github</a>
-                <a href = "./assets/ANANYA MOHAPATRA CV.pdf" target = "_blank"download>Download Resume</a>
+        <section id="section--page">
+            <div id="socials--list">
+                <a href="#blogs-wrapper">Blogs</a>
+                <!--<a href="#" target="_blank">Twitter</a>-->
+                <!--<a href="#" target="_blank">LinkedIn</a>-->
+                <a href="https://github.com/oneAnanya" target="_blank">Github</a>
+                <a href="./assets/ANANYA MOHAPATRA CV.pdf" target="_blank" download>Download Resume</a>
             </div>
         </section>
 
@@ -35,11 +66,11 @@
             <h2>Skills and Qualifications</h2>
             <ul>
                 ✔ &nbsp;Problem Solving in C<br>
-		        ✔ &nbsp;Object Oriented Design<br>
+                ✔ &nbsp;Object Oriented Design<br>
                 ✔ &nbsp;Data Visualization in Tableau<br>
                 ✔ &nbsp;Worked with Flask and Django<br>
-		        ✔ &nbsp;Strong teamwork and collaboration skills<br>
-		        ✔ &nbsp;Proficient in core computer science concepts<br>
+                ✔ &nbsp;Strong teamwork and collaboration skills<br>
+                ✔ &nbsp;Proficient in core computer science concepts<br>
             </ul>
         </section>
 
@@ -56,50 +87,31 @@
                 <div class="card--techstack"><span>FLASK</span></div>
             </div>
         </section>
-
-        <section id="work-history-wrapper" class="section--page">
-            <h2>Work History</h2>
-
-            <div class="line-break"></div>
-            <div class="card--work-history">
-                <strong>🚧 DEVELOPING | WEB SITE </strong>
-                <p>03/2024 - Present</p>
-                <p>Worked on making Health & Wellness Scheduler</p>
-                <ul>
-                    <li>Used Figma for designing UI</li>
-                    <li>Used Git and Github for version control</li>
-                    <li>Integrating Flask for user-end access</li>
-                </ul>
+        <h2>Blogs</h2>
+        <section id="blogs-wrapper" class="section--page">
+            <div class="card--blog">
+                <h3>Blog Title 1</h3>
+                <p>Posted on: January 1, 2024</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
+                <a href="./pages/blog1.html">Read More</a>
             </div>
-	    <div class="line-break"></div>
-            <div class="card--work-history">
-                <strong>🚧 DEVELOPING | WEB APPLICATION </strong>
-                <p>Present</p>
-                <p>Working on Event Management System</p>
-                <ul>
-                    <li>Using MySQL</li>
-                    <li>Utilized Django Framework</li>
-                    <li>Integrated dynamic template rendering</li>
-                </ul>
+            <div class="card--blog">
+                <h3>Blog Title 2</h3>
+                <p>Posted on: February 15, 2024</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
+                <a href="./pages/blog2.html">Read More</a>
             </div>
-
-            <div class="line-break"></div>
-
+            <div class="card--blog">
+                <h3>Blog Title 2</h3>
+                <p>Posted on: February 15, 2024</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
+                <a href="./pages/blog5.html">Read More</a>
+            </div>
+            <!-- Add more blog cards as needed -->
         </section>
 
-        <section class="section--page">
-            <h2>Projects & Accomplishments</h2>
-
-            <div class="card--project">
-                <a href="./pages/project1.html"><span>🏆 </span>Project 1 | Health & Wellness Scheduler </a>
-            </div>
-
-            <div class="card--project">
-                <a href="./pages/project2.html" ><span>🏆 </span>Project 2 | Event Management System</a>
-            </div>
-
-        </section>
-
+        <!-- Navigation arrow or button to scroll to top -->
+        <a href="#container--main">↑</a>
 
     </div>
 </body>
