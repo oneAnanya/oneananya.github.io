@@ -39,29 +39,83 @@
             text-decoration: none;
             font-weight: bold;
         }
+        .slider_section {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Create a flex container for text and image */
+.content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Style the text container to take up 25% of the width */
+.text-container {
+            width: 60%;
+            background-color: #ccc;/* Optional: Background color for contrast */
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Arrange children in a column */
+            justify-content: center; /* Center content vertically */
+            align-items:center; /* Align items to the start horizontally */
+        }
+
+/* Center the text box content */
+.detail-box {
+    text-align: left;
+}
+
+/* Style for the image container to take up 75% of the width */
+.img-container {
+    width: 75%;
+    border-radius: 10px;
+}
+
+/* Make the image responsive */
+.img-box img {
+    width: 100%;
+    height: 100dvh;
+    object-fit: cover; /* Ensure the image covers the container */
+}
+
     </style>
 </head>
 <body>
-    <div id="container--main">
-        <section id="wrapper--hero" class="section-page">
-            <img id="profile-pic" src="./assets/images/profile-pic.avif" alt="" srcset="">
-
-            <div>
-                <p id="bio">Aspiring Software Developer<br> Carrying proficiency in Java 💻☕</p>
-                <p id="email">👉 ananyamohapatra61@gmail.com</p>
-            </div>
-        </section>
-
-        <section id="section--page">
+    <div id="container--land">
+        <section id="section-page">
             <div id="socials--list">
+                <a href="https://oneananya.github.io/">Home</a>
                 <a href="#blogs-wrapper">Blogs</a>
-                <!--<a href="#" target="_blank">Twitter</a>-->
                 <a href="#" target="_blank">LinkedIn</a>
                 <a href="https://github.com/oneAnanya" target="_blank">Github</a>
-                <a href="./assets/ANANYA MOHAPATRA CV.pdf" target="_blank" download>Download Resume</a>
+                <a href="./assets/ANANYA MOHAPATRA CV.pdf" target="_blank" download class="resume-btn">Download Resume</a>
             </div>
         </section>
 
+        <section class="slider_section">
+            <div class="content">
+                <span class="text-container">
+                    <div class="detail-box">
+                        <p id="bio">I'm an aspiring Software Developer💻<br>Having proficiency in Java ☕</p>
+                        <h1 id="bio">You Can Contact Me</h1>
+                        <p id="email">📧 ananyamohapatra61@gmail.com</p>
+                    </div>
+                </span>
+                <div class="img-container">
+                    <div class="img-box">
+                        <img src="./assets/images/profile-pic.avif" alt="Profile Picture">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+          
+        <div id="container--main">
         <section class="section--page">
             <h2>Expertise</h2>
             <ul>
@@ -88,11 +142,11 @@
         </section>
         <h2>Blogs</h2>
         <section id="blogs-wrapper" class="section--page">
+            <div class="blog-container">
             <div class="card--blog">
-                <h3>Blog Title 1</h3>
+                <a href="./pages/blog13.html"><h3>Blog Title 1</h3></a>
                 <p>Posted on: January 1, 2024</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
-                <a href="./pages/blog13.html">Read More</a>
+                <p>Lorem ipsum dolor sit amet,justo.</p>
             </div>
             <div class="card--blog">
                 <h3>Blog Title 2</h3>
@@ -119,10 +173,8 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
                 <a href="./pages/blog10.html">Read More</a>
             </div>
+        </div>
         </section>
-
-        <!-- Navigation arrow or button to scroll to top -->
-        <a href="#container--main">↑</a>
 
     </div>
 </body>
