@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SQL Subqueries</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <style>
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid yellow;
+            padding: 8px;
+            text-align: left;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .meta {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+            .content {
+                padding: 10px;
+            }
+            th, td {
+                padding: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Subqueries in SQL</h1>
+        <p>Subqueries, also known as inner queries or nested queries, are queries within another SQL query. They are used to perform operations that require multiple steps, such as filtering results based on an aggregate function or complex criteria. Subqueries are beneficial as they simplify complex queries, improve readability, and allow for modular query construction.</p>
+        
+        <section>
+            <h2>Example of Subqueries</h2>
+            <p><strong>Scenario:</strong> You want to find students who are enrolled in the highest number of courses.</p>
+            <p><strong>Purpose:</strong> To identify students with the most enrollments by using a subquery to first calculate the number of courses each student is enrolled in, and then filter the results based on the maximum value.</p>
+            <p><strong>Example Tables:</strong></p>
+            <p><strong>Students Table:</strong></p>
+            <table>
+                <tr>
+                    <th>StudentID</th>
+                    <th>Name</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Ananya</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Ankita</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Archita</td>
+                </tr>
+            </table>
+            <p><strong>Courses Table:</strong></p>
+            <table>
+                <tr>
+                    <th>StudentID</th>
+                    <th>Course</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>PGDCA</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Full Stack</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Data Science</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Data Science</td>
+                </tr>
+            </table>
+            <p><strong>SQL:</strong></p>
+            <pre><code>SELECT Name
+FROM Students
+WHERE StudentID IN (
+    SELECT StudentID
+    FROM Courses
+    GROUP BY StudentID
+    HAVING COUNT(Course) = (
+        SELECT MAX(course_count)
+        FROM (
+            SELECT COUNT(Course) AS course_count
+            FROM Courses
+            GROUP BY StudentID
+        ) AS course_counts
+    )
+);</code></pre>
+            <p><strong>Output:</strong></p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                <tr>
+                    <td>Archita</td>
+                </tr>
+            </table>
+            <div class="footer">
+                <p style="text-align: right;"><em>Written by Ananya with 😭</em></p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
