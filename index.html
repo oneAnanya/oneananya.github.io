@@ -4,177 +4,99 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aspiring Software Developer | Growing my skills in Python, Java and SQL.">
+    <meta name="description" content="Aspiring Software Developer | Growing my skills in Python, ML, Java and Enterprise apps.">
     <meta name="author" content="Ananya Mohapatra">
     <title>Ananya Mohapatra</title>
     <link rel="stylesheet" type="text/css" media="screen" href="./styles/main.css">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
-    <style>
-        /* Add custom styles for blog section */
-        #blogs-wrapper {
-            display: flex;
-            max-height: 300px; /* Limiting the height to enable scrolling */
-            overflow-x: auto; /* Enable vertical scrolling */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-        }
-        #blogs-wrapper::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-
-        .card--blog {
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .card--blog h3 {
-            margin-bottom: 5px;
-        }
-        .card--blog p {
-            margin-bottom: 10px;
-        }
-        .card--blog a {
-            color: blue;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .slider_section {
-    display: flex;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* Create a flex container for text and image */
-.content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-/* Style the text container to take up 25% of the width */
-.text-container {
-            width: 60%;
-            background-color: #ccc;/* Optional: Background color for contrast */
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex; /* Enable flexbox */
-            flex-direction: column; /* Arrange children in a column */
-            justify-content: center; /* Center content vertically */
-            align-items:center; /* Align items to the start horizontally */
-        }
-
-/* Center the text box content */
-.detail-box {
-    text-align: left;
-}
-
-/* Style for the image container to take up 75% of the width */
-.img-container {
-    width: 75%;
-    border-radius: 10px;
-}
-
-/* Make the image responsive */
-.img-box img {
-    width: 100%;
-    height: 100dvh;
-    object-fit: cover; /* Ensure the image covers the container */
-}
-
-    </style>
 </head>
 <body>
-    <div id="container--land">
-        <section id="section-page">
-            <div id="socials--list">
-                <a href="https://oneananya.github.io/">Home</a>
-                <a href="#blogs-wrapper">Blogs</a>
-                <a href="#" target="_blank">LinkedIn</a>
-                <a href="https://github.com/oneAnanya" target="_blank">Github</a>
-                <a href="./assets/ANANYA MOHAPATRA CV.pdf" target="_blank" download class="resume-btn">Download Resume</a>
+    <div id="container--main">
+        <section id = "wrapper--hero" class="section-page">
+            <img id = "profile-pic" src="./assets/images/profile-pic.avif" alt="" srcset="">
+
+            <div>
+                <p id = "bio">Aspiring Software Developer<br> Pursuing graduation @ COEB, Bhubaneswar 📚</p>
+                <p id = "email">👉 ananyamohapatra61@gmail.com</p>
             </div>
         </section>
 
-        <section class="slider_section">
-            <div class="content">
-                <span class="text-container">
-                    <div class="detail-box">
-                        <p id="bio">I'm an aspiring Software Developer💻<br>Having proficiency in Java ☕</p>
-                        <h1 id="bio">You Can Contact Me</h1>
-                        <p id="email">📧 ananyamohapatra61@gmail.com</p>
-                    </div>
-                </span>
-                <div class="img-container">
-                    <div class="img-box">
-                        <img src="./assets/images/profile-pic.avif" alt="Profile Picture">
-                    </div>
-                </div>
+        <section id = "section--page">
+            <div id = "socials--list">
+                <a href = "./pages/blog1.html">Blogs</a>
+                <!--<a href = "#" target = "_blank">Twitter</a>-->
+                <!--<a href = "#" target = "_blank">LinkedIn</a>-->
+                <a href = "https://github.com/oneAnanya" target = "_blank">Github</a>
+                <a href = "./assets/ANANYA MOHAPATRA RESUME.pdf" target = "_blank"download>Download Resume</a>
             </div>
         </section>
-    </div>
-          
-        <div id="container--main">
+
         <section class="section--page">
-            <h2>Expertise</h2>
+            <h2>Skills and Qualifications</h2>
             <ul>
-                ✔ &nbsp;Object Oriented Design<br>
-                ✔ &nbsp;Problem Solving in Java<br>
-                ✔ &nbsp;Data Visualization in Tableau<br>
-                ✔ &nbsp;Strong teamwork and collaboration skills<br>
-                ✔ &nbsp;Proficient in core computer science concepts<br>
-                ✔ &nbsp;Framimg SQL queries as per business scenarios<br>
-                ✔ &nbsp;Structuring the problem statement into design patterns<br>
+                ✔ &nbsp;Proficient in Python and building web applications in Flask<br>
+		        ✔ &nbsp;Strong understanding of Machine Learning algorithms and model training<br>
+                ✔ &nbsp;Experience with MySQL and MongoDB for relational and NoSQL database management<br>
+                ✔ &nbsp;Version control using Git and GitHub for collaborative development.<br>
+		        ✔ &nbsp;Proficient in core computer science concepts<br>
             </ul>
         </section>
 
         <section class="section--page">
-            <h2>Skills</h2>
+            <h2>Tech Stack</h2>
 
             <div id="wrapper--techstack__items">
-                <div class="card--techstack"><span>C</span></div>
                 <div class="card--techstack"><span>HTML</span></div>
                 <div class="card--techstack"><span>CSS</span></div>
-                <div class="card--techstack"><span>JAVA</span></div>
-                <div class="card--techstack"><span>MySQL</span></div>
+                <div class="card--techstack"><span>PYTHON</span></div>
+                <div class="card--techstack"><span>FLASK</span></div>
+                <div class="card--techstack"><span>GIT AND GITHUB</span></div>
             </div>
         </section>
-        <h2>Blogs</h2>
-        <section id="blogs-wrapper" class="section--page">
-            <div class="blog-container">
-            <div class="card--blog">
-                <a href="./pages/blog15.html"><h3>Blog Title 1</h3></a>
-                <p>Posted on: January 1, 2024</p>
-                <p>Lorem ipsum dolor sit amet,justo.</p>
+
+        <section id="work-history-wrapper" class="section--page">
+            <h2>Work History</h2>
+
+            <div class="line-break"></div>
+            <div class="card--work-history">
+                <strong>🚧 DEVELOPING | WEB SITE </strong>
+                <p>02/2025 - Present</p>
+                <p>Worked on making house price predictions</p>
+                <ul>
+                    <li>Used 3 ML models to get better predictions</li>
+                    <li>Used Git and Github for version control</li>
+                    <li>Integrating Flask for user-end access</li>
+                </ul>
             </div>
-            <div class="card--blog">
-                <h3>Blog Title 2</h3>
-                <p>Posted on: February 15, 2024</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
-                <a href="./pages/blog14.html">Read More</a>
+	    <div class="line-break"></div>
+            <div class="card--work-history">
+                <strong>🚧 DEVELOPING | WEB APPLICATION </strong>
+                <p>Present</p>
+                <p>Working on Real-Estate </p>
+                <ul>
+                    <li>Using MERN Stack</li>
+                    <!-- <li>Integrated MySQL with JDBC</li> -->
+                    <!-- <li>Working of enhancing UI/UX followed by backend</li> -->
+                </ul>
             </div>
-            <!-- Add more blog cards as needed -->
-            <div class="card--blog">
-                <h3>Blog Title 2</h3>
-                <p>Posted on: February 15, 2024</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
-                <a href="./pages/blog10.html">Read More</a>
-            </div>
-            <div class="card--blog">
-                <h3>Blog Title 2</h3>
-                <p>Posted on: February 15, 2024</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
-                <a href="./pages/blog10.html">Read More</a>
-            </div>
-            <div class="card--blog">
-                <h3>Blog Title 2</h3>
-                <p>Posted on: February 15, 2024</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ultricies, posuere justo ac, tempor justo.</p>
-                <a href="./pages/blog10.html">Read More</a>
-            </div>
-        </div>
+
+            <div class="line-break"></div>
+
         </section>
+
+        <section class="section--page">
+            <h2>Projects & Accomplishments</h2>
+
+            <div class="card--project">
+                <a href="./pages/project1.html"><span>🏆 </span>Project 1 | House Price Predictor </a>
+            </div>
+
+            <div class="card--project">
+                <a href="./pages/project2.html" ><span>🏆 </span>Project 2 | Real Estate Platform</a>
+            </div>
+
+        </section>
+
 
     </div>
 </body>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SQL Normalization Explanation">
+    <meta name="author" content="Ananya Mohapatra">
+    <title>SQL Normalization</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="./styles/main.css">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #FFD700;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section-page {
+            margin-bottom: 20px;
+        }
+        .sql-query {
+            background: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #FFD700;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .output-table th, .output-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .output-table th {
+            background-color: #FFD700;
+            color: #000;
+        }
+        .footer {
+            text-align: right;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="section-page">
+            <h2>Implementing Normalization Using MySQL</h2>
+            <p>Normalization is a process that organizes data into multiple related tables to eliminate redundancy and ensure data integrity.</p>
+        </section>
+        
+        <section class="section-page">
+            <h2>Unnormalized Table (UNF)</h2>
+            <p>The unnormalized table contains redundant and multivalued attributes. The goal of normalization is to break it down into smaller, structured tables.</p>
+            <table class="output-table">
+                <tr>
+                    <th>OrderID</th>
+                    <th>CustomerName</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Supplier</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Alice</td>
+                    <td>Laptop, Mouse</td>
+                    <td>1, 2</td>
+                    <td>HP, Logitech</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Bob</td>
+                    <td>Keyboard</td>
+                    <td>1</td>
+                    <td>Logitech</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section class="section-page">
+            <h2>1. First Normal Form (1NF)</h2>
+            <p>A table is in <b>1NF</b> if:</p>
+            <ul>
+                <li>Each column contains atomic values.</li>
+                <li>Each row has a unique identifier (Primary Key).</li>
+            </ul>
+            <p><b>Operation:</b> Remove duplicate or multivalued attributes by creating a separate table for them.</p>
+            <table class="output-table">
+                <tr>
+                    <th>OrderID</th>
+                    <th>CustomerName</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Supplier</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Alice</td>
+                    <td>Laptop</td>
+                    <td>1</td>
+                    <td>HP</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Alice</td>
+                    <td>Mouse</td>
+                    <td>2</td>
+                    <td>Logitech</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section class="section-page">
+            <h2>2. Second Normal Form (2NF)</h2>
+            <p>A table is in <b>2NF</b> if:</p>
+            <ul>
+                <li>It is in 1NF.</li>
+                <li>All non-key attributes depend on the whole primary key.</li>
+            </ul>
+            <p><b>Operation:</b> Remove partial dependencies by splitting the table into separate tables.</p>
+        </section>
+        
+        <section class="section-page">
+            <h2>3. Third Normal Form (3NF)</h2>
+            <p>A table is in <b>3NF</b> if:</p>
+            <ul>
+                <li>It is in 2NF.</li>
+                <li>It has no transitive dependencies.</li>
+            </ul>
+        </section>
+        
+        <section class="section-page">
+            <h2>4. Boyce-Codd Normal Form (BCNF)</h2>
+            <p>A table is in <b>BCNF</b> if:</p>
+            <ul>
+                <li>It is in 3NF.</li>
+                <li>For every functional dependency X → Y, X should be a superkey.</li>
+            </ul>
+        </section>
+        
+        <section class="section-page">
+            <h2>Benefits of Normalization</h2>
+            <ul>
+                <li>Eliminates Data Redundancy</li>
+                <li>Ensures Data Integrity</li>
+                <li>Improves Query Performance</li>
+                <li>Maintains Data Consistency</li>
+            </ul>
+        </section>
+        
+        <div class="footer">
+            <p>Written by Ananya with ❤️</p>
+        </div>
+    </div>
+</body>
+</html>
