@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Ananya Says</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/main.css">
+        <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+        <style>
+            .content {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            th, td {
+                border: 1px solid purple;
+                padding: 8px;
+                text-align: left;
+            }
+            h1, h2, h3 {
+                text-align: center;
+            }
+            .meta {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            @media (max-width: 600px) {
+                body {
+                    font-size: 14px;
+                }
+                .content {
+                    padding: 10px;
+                }
+                th, td {
+                    padding: 4px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div class="meta">
+                <p><strong>Author:</strong> [Author Name]</p>
+                <p><strong>Post Date:</strong> [Post Date]</p>
+            </div>
+            <h1>Differences Between MySQL and MongoDB</h1>
+
+            <h2>1. Database vs. Cluster</h2>
+            <ul>
+                <li><strong>MySQL:</strong> Uses databases, which are collections of relational tables.</li>
+                <li><strong>MongoDB:</strong> Uses clusters, which are collections of databases.</li>
+            </ul>
+
+            <h2>2. Table vs. Collection</h2>
+            <ul>
+                <li><strong>MySQL:</strong> Data is stored in tables with rows and columns.</li>
+                <li><strong>MongoDB:</strong> Data is stored in collections, which are groups of documents.</li>
+            </ul>
+
+            <h2>3. Row vs. Document</h2>
+            <ul>
+                <li><strong>MySQL:</strong> A row represents a single record in a table.</li>
+                <li><strong>MongoDB:</strong> A document is a single record in a collection, stored in JSON-like format.</li>
+            </ul>
+
+            <h2>4. Column vs. Field</h2>
+            <ul>
+                <li><strong>MySQL:</strong> Columns define the attributes of the data stored in rows.</li>
+                <li><strong>MongoDB:</strong> Fields are key-value pairs within documents.</li>
+            </ul>
+
+            <h2>5. Schema vs. Schema-less</h2>
+            <ul>
+                <li><strong>MySQL:</strong> Enforces a strict schema, meaning the structure of tables and relationships must be defined upfront.</li>
+                <li><strong>MongoDB:</strong> Is schema-less, allowing documents in a collection to have different structures.</li>
+            </ul>
+
+            <h2>Scenarios for Using MySQL</h2>
+            <p>We should use MySQL for applications requiring structured data, complex transactions, and strong data integrity.</p>
+            <ul>
+                <li><strong>Structured Data:</strong> When data is highly structured and relationships between data entities are well-defined. e.g., financial applications, ERP systems.</li>
+                <li><strong>ACID Transactions:</strong> When transactions require strict ACID compliance for consistency and integrity. e.g., banking systems.</li>
+                <li><strong>Complex Queries:</strong> When complex joins and queries are needed.</li>
+            </ul>
+
+            <h2>Scenarios for Using MongoDB</h2>
+            <p>We should use MongoDB for applications needing flexible schemas, scalability, and rapid development with varied data types.</p>
+            <ul>
+                <li><strong>Unstructured Data:</strong> When dealing with unstructured or semi-structured data that may evolve. e.g., content management systems.</li>
+                <li><strong>Scalability:</strong> When horizontal scaling is required to handle large volumes of data and high traffic (e.g., big data applications).</li>
+                <li><strong>Rapid Development:</strong> When quick iteration and development flexibility are necessary. e.g., agile development environments.</li>
+            </ul>
+        </div>
+    </body>
+</html>

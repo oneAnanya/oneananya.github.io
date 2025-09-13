@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Property Price Predictor - ML-powered real estate price prediction using Indian cities dataset" />
+    <meta name="author" content="Ananya Mohapatra" />
+    <title>Property Palace | Ananya Mohapatra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-light: #9ca3af;
+            --bg-primary: #0b1220;
+            --bg-secondary: #0f1724;
+            --bg-tertiary: #0b1420;
+            --border-color: #1f2937;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            overflow-x: hidden;
+            padding-top: 72px; /* account for fixed nav */
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 0.35rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: transform .18s ease, box-shadow .18s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+
+        .theme-toggle:focus { outline: 2px solid rgba(99,102,241,0.25); outline-offset: 2px; }
+
+        .theme-toggle:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+        .theme-toggle span { font-size: 18px; line-height: 1; }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.6));
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 999;
+            padding: 0.75rem 0;
+        }
+
+        [data-theme="dark"] .nav-bar {
+            background: linear-gradient(180deg, rgba(11,17,32,0.9), rgba(11,17,32,0.7));
+        }
+
+        .nav-content { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+
+        .nav-brand { font-size:1.2rem; font-weight:800; letter-spacing: -0.02em; background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-decoration:none; }
+
+        .nav-links { display:flex; gap:1rem; align-items:center; }
+        .nav-link { color:var(--text-secondary); text-decoration:none; font-weight:500; font-size:0.95rem; position:relative; padding:0.25rem 0.35rem; border-radius:6px; }
+        .nav-link:hover { color:var(--primary-color); background:transparent; }
+
+        /* Hero */
+        .project-hero { padding: 4rem 0 2.5rem; background: linear-gradient(135deg, transparent 0%, transparent 100%); position:relative; }
+        .project-header { position:relative; z-index:1; text-align:center; max-width:900px; margin:0 auto; }
+
+        .project-status { display:inline-flex; align-items:center; gap:.6rem; background:var(--gradient-accent); color:#fff; padding:.4rem .9rem; border-radius:999px; font-weight:700; font-size:.85rem; text-transform:uppercase; letter-spacing:.6px; }
+
+        .project-title { font-size: clamp(1.8rem, 4.5vw, 3.2rem); font-weight:800; margin:1rem 0 .6rem; background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .project-subtitle { color:var(--text-secondary); font-size:1.02rem; max-width:820px; margin:0 auto 1.25rem; }
+
+        .project-meta { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:1.1rem; }
+        .meta-item { display:flex; flex-direction:column; align-items:center; padding:.7rem .9rem; background:var(--bg-secondary); border-radius:10px; border:1px solid var(--border-color); min-width:120px; }
+        .meta-label { font-size:.75rem; color:var(--text-light); text-transform:uppercase; font-weight:700; letter-spacing:.6px; }
+        .meta-value { margin-top:.25rem; font-weight:700; color:var(--text-primary); }
+
+        .project-actions { display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+        .action-btn { display:inline-flex; align-items:center; gap:.6rem; padding:.6rem 1rem; border-radius:999px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+        .btn-primary { background:var(--gradient-primary); color:#fff; box-shadow:var(--shadow-md); }
+        .btn-secondary { background:var(--bg-secondary); color:var(--text-primary); border:1px solid var(--border-color); }
+        .action-btn:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+
+        /* Content sections */
+        .project-content { padding:2.5rem 0 4rem; }
+        .section-title { font-size:1.45rem; font-weight:800; margin-bottom:1rem; color:var(--text-primary); position:relative; }
+        .section-title::after { content:""; position:absolute; bottom:-10px; left:0; width:46px; height:4px; background:var(--gradient-primary); border-radius:3px; }
+
+        .project-gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+        .gallery-item { background:var(--bg-secondary); border-radius:12px; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:180px; }
+        .gallery-placeholder { width:100%; height:140px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.4rem; font-size:2.2rem; }
+        .gallery-caption { padding:.8rem; text-align:center; font-weight:600; color:var(--text-secondary); }
+
+        .metrics-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+        .metric-card { background:var(--bg-secondary); padding:1rem; border-radius:12px; border:1px solid var(--border-color); text-align:center; }
+        .metric-value { font-size:1.4rem; font-weight:800; color:var(--primary-color); display:block; }
+        .metric-label { font-size:.8rem; color:var(--text-light); margin-top:.4rem; text-transform:uppercase; letter-spacing:.6px; }
+
+        .tech-stack { display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.5rem; }
+        .tech-tag { padding:.45rem .75rem; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:999px; font-weight:700; }
+
+        .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+        .feature-card { background:var(--bg-secondary); padding:1rem; border-radius:12px; border:1px solid var(--border-color); position:relative; overflow:hidden; }
+        .feature-icon { width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:.75rem; background:var(--gradient-primary); color:#fff; }
+
+        .project-details { background:var(--bg-secondary); padding:1.25rem; border-radius:12px; border:1px solid var(--border-color); margin-bottom:1.5rem; }
+        .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .detail-section h3 { color:var(--primary-color); margin-bottom:.6rem; font-size:1rem; }
+        .detail-section p, .detail-section li { color:var(--text-secondary); line-height:1.5; margin-bottom:.4rem; }
+
+        /* table style */
+        table { width:100%; border-collapse:collapse; margin-top:.6rem; }
+        th, td { text-align:left; padding:.6rem .5rem; border:1px solid var(--border-color); color:var(--text-secondary); font-size:.95rem; }
+        th { background:rgba(99,102,241,0.06); color:var(--text-primary); font-weight:700; }
+
+        /* Nav Footer */
+        .project-navigation { background:var(--bg-tertiary); border-top:1px solid var(--border-color); padding:2rem 0; margin-top:2rem; border-radius:12px; }
+        .nav-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; align-items:center; }
+
+        footer { padding:2rem 0; text-align:center; color:var(--text-secondary); font-size:.92rem; }
+
+        /* Small screens */
+        @media (max-width: 768px) {
+            .nav-links { display:none; }
+            .details-grid { grid-template-columns:1fr; }
+            .project-actions { gap:.5rem; }
+            .project-hero { padding:3.5rem 0 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle { top:.6rem; right:.6rem; width:40px; height:40px; }
+            .project-title { font-size:1.6rem; }
+            .gallery-placeholder { font-size:1.4rem; height:120px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme (saved)">
+        <span id="themeIcon">🌙</span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="nav-brand">Ananya</a>
+                <div class="nav-links" aria-hidden="false">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/#projects" class="nav-link">Projects</a>
+                    <a href="/#blogs" class="nav-link">Blog</a>
+                    <a href="mailto:ananyamohapatra61@gmail.com" class="nav-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Hero -->
+<section class="project-hero" id="projects" aria-labelledby="project-title">
+  <div class="container">
+    <div class="project-header">
+      <div class="project-status" aria-hidden="true">
+        <span>🏡</span>
+        <span>Completed & Deployed</span>
+      </div>
+
+      <h1 class="project-title" id="project-title">Property Palace</h1>
+
+      <p class="project-subtitle">
+        A dynamic real estate marketplace built on MERN stack, enabling property listings, search filters, and bookings. 
+        Integrated Firebase Authentication for secure user registration, login, and role-based access.
+      </p>
+
+      <div class="project-meta" role="list">
+        <div class="meta-item" role="listitem">
+          <div class="meta-label">Duration</div>
+          <div class="meta-value">4 Months</div>
+        </div>
+        <div class="meta-item" role="listitem">
+          <div class="meta-label">Authentication</div>
+          <div class="meta-value">Firebase</div>
+        </div>
+        <div class="meta-item" role="listitem">
+          <div class="meta-label">Tech Stack</div>
+          <div class="meta-value">MERN + Firebase</div>
+        </div>
+        <div class="meta-item" role="listitem">
+          <div class="meta-label">Deployment</div>
+          <div class="meta-value">Vercel / Render</div>
+        </div>
+      </div>
+
+      <div class="project-actions" role="group" aria-label="Project actions">
+        <a href="#" class="action-btn btn-primary" id="liveDemoBtn" aria-label="Open live demo">
+          <span>🔗</span>
+          View Live Demo
+        </a>
+        <a href="#" class="action-btn btn-secondary" id="githubBtn" aria-label="Open repository">
+          <span>🐙</span>
+          View Code
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Project Content -->
+<section class="project-content" aria-labelledby="content-heading">
+  <div class="container">
+    <h2 class="section-title" id="content-heading">Project Screenshots</h2>
+    <div class="project-gallery" role="list">
+      <div class="gallery-item" role="listitem">
+        <div class="gallery-placeholder">📋</div>
+        <div class="gallery-caption">Property Listing Dashboard</div>
+      </div>
+      <div class="gallery-item" role="listitem">
+        <div class="gallery-placeholder">🔍</div>
+        <div class="gallery-caption">Search & Filters</div>
+      </div>
+      <div class="gallery-item" role="listitem">
+        <div class="gallery-placeholder">📅</div>
+        <div class="gallery-caption">Booking Interface</div>
+      </div>
+      <div class="gallery-item" role="listitem">
+        <div class="gallery-placeholder">🔐</div>
+        <div class="gallery-caption">Firebase Login</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Technology Stack</h2>
+    <div class="tech-stack" role="list">
+      <div class="tech-tag" role="listitem">MongoDB</div>
+      <div class="tech-tag" role="listitem">Express.js</div>
+      <div class="tech-tag" role="listitem">React</div>
+      <div class="tech-tag" role="listitem">Node.js</div>
+      <div class="tech-tag" role="listitem">Firebase Auth</div>
+      <div class="tech-tag" role="listitem">Redux</div>
+      <div class="tech-tag" role="listitem">TailwindCSS</div>
+      <div class="tech-tag" role="listitem">Git/GitHub</div>
+      <div class="tech-tag" role="listitem">Vercel</div>
+    </div>
+
+    <h2 class="section-title">Key Features</h2>
+    <div class="features-grid" role="list">
+      <div class="feature-card" role="listitem">
+        <div class="feature-icon">🏠</div>
+        <h3 class="feature-title">Property Management</h3>
+        <p class="feature-description">Add, edit, and delete property listings with details like price, location, and amenities.</p>
+      </div>
+      <div class="feature-card" role="listitem">
+        <div class="feature-icon">🔍</div>
+        <h3 class="feature-title">Advanced Search</h3>
+        <p class="feature-description">Filter properties by location, price, type, and availability.</p>
+      </div>
+      <div class="feature-card" role="listitem">
+        <div class="feature-icon">📅</div>
+        <h3 class="feature-title">Booking System</h3>
+        <p class="feature-description">Users can request and confirm property bookings with automated status updates.</p>
+      </div>
+      <div class="feature-card" role="listitem">
+        <div class="feature-icon">🔐</div>
+        <h3 class="feature-title">Secure Authentication</h3>
+        <p class="feature-description">Firebase Authentication with email/password and Google sign-in options.</p>
+      </div>
+      <div class="feature-card" role="listitem">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Admin Dashboard</h3>
+        <p class="feature-description">Admin panel for monitoring listings, users, and bookings.</p>
+      </div>
+    </div>
+
+    <!-- Project Details -->
+    <div class="project-details" aria-labelledby="details-heading">
+      <h2 class="section-title" id="details-heading">Project Details</h2>
+      <div class="details-grid">
+        <div class="detail-section">
+          <h3>🏡 Project Overview</h3>
+          <p>Property Palace is a full-stack MERN real estate platform allowing users to browse, list, and book properties. Firebase secures the platform with user authentication and role-based access control.</p>
+
+          <h3 style="margin-top:.6rem;">📦 Data Handling</h3>
+          <ul>
+            <li>MongoDB for property data storage.</li>
+            <li>Express.js APIs for CRUD operations.</li>
+            <li>React + Redux for state management.</li>
+          </ul>
+        </div>
+
+        <div class="detail-section">
+          <h3>⚙️ Authentication & Security</h3>
+          <ul>
+            <li>Firebase Authentication for signup, login, and session management.</li>
+            <li>Role-based access (Admin, User).</li>
+            <li>Protected routes in React with Firebase tokens.</li>
+          </ul>
+
+          <h3 style="margin-top:.6rem;">🚀 Deployment</h3>
+          <ul>
+            <li>Frontend deployed on Vercel.</li>
+            <li>Backend hosted on Render.</li>
+            <li>Connected with Firebase project for auth services.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <script>
+        // Theme toggling with persistence
+        (function () {
+            const root = document.documentElement;
+            const toggleBtn = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const saved = localStorage.getItem('site-theme');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    root.setAttribute('data-theme', 'dark');
+                    themeIcon.textContent = '☀️';
+                } else {
+                    root.removeAttribute('data-theme');
+                    themeIcon.textContent = '🌙';
+                }
+            }
+
+            // initialize
+            if (saved) {
+                applyTheme(saved);
+            } else {
+                // prefer system dark
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(prefersDark ? 'dark' : 'light');
+            }
+
+            toggleBtn.addEventListener('click', function () {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const next = isDark ? 'light' : 'dark';
+                applyTheme(next);
+                localStorage.setItem('site-theme', next);
+                // announce for screen readers (simple)
+                toggleBtn.setAttribute('aria-pressed', next === 'dark');
+            });
+
+            // keyboard accessibility
+            toggleBtn.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleBtn.click();
+                }
+            });
+        })();
+
+        // Example link handlers (replace '#' with real URLs)
+        document.getElementById('liveDemoBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.open('#', '_blank');
+        });
+
+        document.getElementById('githubBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.open('#', '_blank');
+        });
+
+        document.getElementById('datasetBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.open('#', '_blank');
+        });
+
+        document.getElementById('demoCenterBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.open('#', '_blank');
+        });
+
+        document.getElementById('repoFooterLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.open('#', '_blank');
+        });
+
+        // Simple smooth scrolling for same-page anchors
+        (function () {
+            const links = document.querySelectorAll('a[href^="#"]');
+            for (const link of links) {
+                link.addEventListener('click', function (e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

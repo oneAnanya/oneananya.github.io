@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building RESTful APIs with Flask</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --secondary: #f8fafc;
+      --accent: #06b6d4;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Inter',sans-serif;
+      line-height:1.7;
+      background:var(--secondary);
+      color:var(--text-primary);
+    }
+    .hero-bg {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:radial-gradient(circle at top left, rgba(99,102,241,0.1), transparent 40%),
+                 radial-gradient(circle at bottom right, rgba(6,182,212,0.1), transparent 40%);
+      z-index:-1;
+    }
+    .progress-bar {
+      position:fixed; top:0; left:0;
+      height:4px; width:0;
+      background:var(--gradient-3);
+      z-index:50;
+      transition:width .2s ease;
+    }
+    .container {
+      max-width:850px;
+      margin:0 auto;
+      padding:3rem 1.5rem;
+    }
+    .header {
+      text-align:center;
+      margin-bottom:3rem;
+      animation:fadeIn 1s ease;
+    }
+    .author-info {
+      display:flex; align-items:center; justify-content:center;
+      gap:12px; margin-bottom:1.2rem;
+    }
+    .author-avatar {
+      width:42px; height:42px;
+      border-radius:50%;
+      background:var(--gradient-2);
+      color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:600;
+    }
+    .author-details { text-align:left; }
+    .author-name { font-weight:600; font-size:15px; }
+    .post-date { display:block; font-size:13px; color:var(--text-secondary); }
+    .main-title {
+      font-size:2.7rem;
+      font-weight:800;
+      background:var(--gradient-3);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:1.2rem;
+      line-height:1.3;
+    }
+    .subtitle {
+      font-size:1.15rem;
+      color:var(--text-secondary);
+      max-width:650px;
+      margin:0 auto;
+    }
+    .section {
+      background:var(--surface);
+      border-radius:1rem;
+      padding:2rem;
+      box-shadow:var(--shadow);
+      margin-bottom:2.2rem;
+      transition:transform .25s ease, box-shadow .25s ease;
+      animation:fadeUp .6s ease;
+    }
+    .section:hover {
+      transform:translateY(-5px);
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+    }
+    .section h2 {
+      font-size:1.4rem;
+      margin-bottom:1rem;
+      display:flex; align-items:center;
+      gap:.5rem;
+      font-weight:700;
+      color:var(--text-primary);
+    }
+    .section-badge {
+      display:inline-block;
+      width:6px; height:20px;
+      border-radius:3px;
+      background:var(--gradient-4);
+    }
+    .highlight-box {
+      background:var(--surface-hover);
+      padding:1.2rem;
+      border-left:4px solid var(--primary);
+      border-radius:.6rem;
+      margin:1.5rem 0;
+      font-size:.95rem;
+      color:var(--text-secondary);
+    }
+    code {
+      background:var(--surface-hover);
+      padding:.25rem .4rem;
+      border-radius:.3rem;
+      font-size:.85rem;
+      font-family:monospace;
+      color: #0f172a;
+    }
+    pre {
+      background:var(--text-primary);
+      padding:1rem;
+      border-radius:.6rem;
+      overflow-x:auto;
+      font-size:.9rem;
+      margin:1rem 0;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-15px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(25px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="author-info">
+        <div class="author-avatar">WD</div>
+        <div class="author-details">
+          <span class="author-name">Web Development</span>
+          <span class="post-date">March 10, 2025</span>
+        </div>
+      </div>
+      <h1 class="main-title">Building RESTful APIs with Flask</h1>
+      <p class="subtitle">
+        A comprehensive guide to creating robust and scalable REST APIs using Flask framework with proper error handling and authentication.
+      </p>
+    </div>
+
+    <!-- Sections -->
+    <div class="section">
+      <h2><span class="section-badge"></span> Introduction</h2>
+      <p>
+        RESTful APIs are the backbone of modern web applications. Flask, a lightweight Python framework, makes it simple to create APIs that are both powerful and flexible. This guide walks you through the essentials of building a scalable REST API with Flask.
+      </p>
+      <div class="highlight-box">
+        💡 REST (Representational State Transfer) is all about stateless communication between client and server.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Setting up Flask</h2>
+      <p>Install Flask with pip:</p>
+      <pre><code>pip install flask</code></pre>
+      <p>Basic Flask app structure:</p>
+      <pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return {"message": "Hello, Flask API!"}
+
+if __name__ == "__main__":
+    app.run(debug=True)</code></pre>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Creating REST Endpoints</h2>
+      <p>
+        With Flask, you can define <code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> routes easily. Example:
+      </p>
+      <pre><code>@app.route('/items', methods=['GET'])
+def get_items():
+    return {"items": ["Book", "Pen", "Laptop"]}</code></pre>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Error Handling</h2>
+      <p>
+        Good APIs must handle errors gracefully. Flask provides decorators for error handling:
+      </p>
+      <pre><code>@app.errorhandler(404)
+def not_found(e):
+    return {"error": "Not Found"}, 404</code></pre>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Authentication</h2>
+      <p>
+        Secure APIs with JWT (JSON Web Tokens). Libraries like <code>Flask-JWT-Extended</code> make token-based authentication straightforward.
+      </p>
+      <pre><code>pip install flask-jwt-extended</code></pre>
+    </div>
+  </div>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>

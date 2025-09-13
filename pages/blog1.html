@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ananya Says - Database Concepts</title>
+    <meta name="description" content="A comprehensive guide to fundamental database concepts with modern examples">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4338ca;
+            --primary-light: #6366f1;
+            --primary-dark: #3730a3;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-6: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--secondary);
+            font-weight: 400;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--gradient-1);
+            opacity: 0.05;
+            z-index: -2;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(1deg) scale(1.02); }
+            50% { transform: translateY(10px) rotate(-0.5deg) scale(0.98); }
+            75% { transform: translateY(-5px) rotate(0.5deg) scale(1.01); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            background: var(--surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-3);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        .author-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--surface-hover);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .author-info:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .post-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: var(--gradient-1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .concept-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:nth-child(1)::before { background: var(--gradient-1); }
+        .concept-card:nth-child(2)::before { background: var(--gradient-2); }
+        .concept-card:nth-child(3)::before { background: var(--gradient-3); }
+        .concept-card:nth-child(4)::before { background: var(--gradient-4); }
+
+        .concept-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .concept-card:nth-child(1) .concept-number { background: var(--gradient-1); }
+        .concept-card:nth-child(2) .concept-number { background: var(--gradient-2); }
+        .concept-card:nth-child(3) .concept-number { background: var(--gradient-3); }
+        .concept-card:nth-child(4) .concept-number { background: var(--gradient-4); }
+
+        .concept-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .concept-icon {
+            font-size: 1.8rem;
+        }
+
+        .concept-description {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .table-showcase {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .table-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-2);
+        }
+
+        .table-container {
+            margin: 2rem 0;
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            background: var(--surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--gradient-2);
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: none;
+            position: relative;
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        tr:hover td {
+            background: var(--surface-hover);
+            transform: scale(1.01);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .keys-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .keys-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-4);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--gradient-4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .keys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .key-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .key-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .key-card:nth-child(1)::before { background: var(--gradient-1); }
+        .key-card:nth-child(2)::before { background: var(--gradient-2); }
+        .key-card:nth-child(3)::before { background: var(--gradient-3); }
+        .key-card:nth-child(4)::before { background: var(--gradient-4); }
+        .key-card:nth-child(5)::before { background: var(--gradient-5); }
+        .key-card:nth-child(6)::before { background: var(--gradient-6); }
+
+        .key-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(129, 140, 248, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--surface);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--surface-hover);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-1);
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .keys-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .concept-card, .keys-section {
+                padding: 1.5rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .author-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-container {
+                margin: 1rem -1rem;
+                border-radius: 0;
+            }
+            
+            th, td {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for cards appearing */
+        .concept-card, .key-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .concept-card:nth-child(1) { animation-delay: 0.1s; }
+        .concept-card:nth-child(2) { animation-delay: 0.2s; }
+        .concept-card:nth-child(3) { animation-delay: 0.3s; }
+        .concept-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .key-card:nth-child(1) { animation-delay: 0.1s; }
+        .key-card:nth-child(2) { animation-delay: 0.2s; }
+        .key-card:nth-child(3) { animation-delay: 0.3s; }
+        .key-card:nth-child(4) { animation-delay: 0.4s; }
+        .key-card:nth-child(5) { animation-delay: 0.5s; }
+        .key-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="progress-bar"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="author-info">
+                <div class="author-avatar">A</div>
+                <div class="author-details">
+                    <div class="author-name">Ananya Mohapatra</div>
+                    <div class="post-date">February 11, 2024</div>
+                </div>
+            </div>
+            <h1 class="main-title">Database Concepts</h1>
+            <p class="subtitle">Master the fundamental building blocks of database systems with clear explanations and practical examples</p>
+        </header>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="concept-number">1</div>
+                <h2 class="concept-title">
+                    <span class="concept-icon">🗄️</span>
+                    Database
+                </h2>
+                <p class="concept-description">
+                    A database is a structured collection of data stored in a computer system. It allows for efficient storage, retrieval, and management of data. In our example, the database would be an institute's student management system containing all the student records.
+                </p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-number">2</div>
+                <h2 class="concept-title">
+                    <span class="concept-icon">📊</span>
+                    Table
+                </h2>
+                <p class="concept-description">
+                    A table is a collection of related data entries that consists of columns and rows within a database. Each table represents a specific type of data. For our example, the table might be named "Students" and includes structured information about each student.
+                </p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-number">3</div>
+                <h2 class="concept-title">
+                    <span class="concept-icon">📐</span>
+                    Degree
+                </h2>
+                <p class="concept-description">
+                    The degree of a table refers to the number of columns (attributes) it has. In our "Students" table, there are 4 columns: Name, Student ID, Course, and Duration. Therefore, the degree of this table is 4.
+                </p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-number">4</div>
+                <h2 class="concept-title">
+                    <span class="concept-icon">🔢</span>
+                    Cardinality
+                </h2>
+                <p class="concept-description">
+                    The cardinality of a table refers to the number of rows (records) it contains. In our "Students" table, there are 3 rows, each representing a different student. Therefore, the cardinality of this table is 3.
+                </p>
+            </div>
+        </div>
+
+        <div class="table-showcase">
+            <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--text-primary);">📚 Sample Students Table</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                            <th>Course</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ankita</td>
+                            <td>101</td>
+                            <td>PGDCA</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Ananya</td>
+                            <td>102</td>
+                            <td>Full Stack</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Archita</td>
+                            <td>103</td>
+                            <td>BI</td>
+                            <td>8 months</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Table Analysis:</strong> This Students table demonstrates all four concepts - it's part of a database, has a degree of 4 (columns), and a cardinality of 3 (rows).</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Degree (Columns)</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Cardinality (Rows)</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="keys-section">
+            <h2 class="section-title">🔑 Keys in Relational Tables</h2>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                In relational databases, different types of keys help uniquely identify and organize data. Each key type serves a specific purpose in maintaining data integrity and establishing relationships.
+            </p>
+
+            <div class="keys-grid">
+                <div class="key-card">
+                    <h3 class="key-title">
+                        🎯 Primary Key
+                    </h3>
+                    <p class="key-description">
+                        Uniquely identifies each record in a table. In our example, "Student ID" (101, 102, 103) serves as the primary key since each student has a unique identifier that cannot be duplicated.
+                    </p>
+                </div>
+
+                <div class="key-card">
+                    <h3 class="key-title">
+                        🏆 Candidate Key
+                    </h3>
+                    <p class="key-description">
+                        Columns that can uniquely identify records and potentially become primary keys. "Student ID" is a candidate key because it uniquely identifies students without any duplicates.
+                    </p>
+                </div>
+
+                <div class="key-card">
+                    <h3 class="key-title">
+                        ⭐ Super Key
+                    </h3>
+                    <p class="key-description">
+                        Any set of columns that can uniquely identify rows. "Student ID" alone is a super key. Combinations like ("Student ID" + "Name") are also super keys, though unnecessarily complex.
+                    </p>
+                </div>
+
+                <div class="key-card">
+                    <h3 class="key-title">
+                        🔗 Foreign Key
+                    </h3>
+                    <p class="key-description">
+                        Links two tables together by referencing the primary key of another table. If we have a separate Courses table, the "Course" column in our Students table could be a foreign key.
+                    </p>
+                </div>
+
+                <div class="key-card">
+                    <h3 class="key-title">
+                        🧩 Composite Key
+                    </h3>
+                    <p class="key-description">
+                        A key consisting of two or more columns to uniquely identify records. If "Student ID" wasn't unique, we could use ("Name" + "Student ID") as a composite key combination.
+                    </p>
+                </div>
+
+                <div class="key-card">
+                    <h3 class="key-title">
+                        🔄 Alternate Key
+                    </h3>
+                    <p class="key-description">
+                        Candidate keys not chosen as the primary key. If both "Student ID" and another unique column could be candidate keys, the unused one becomes an alternate key.
+                    </p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <p><strong>🎯 Key Takeaway:</strong> Understanding these key types is essential for designing efficient relational databases that maintain data integrity and support complex queries across multiple related tables.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Progress bar functionality
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrollPercent + '%';
+        }
+
+        // Smooth scrolling and animations
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.concept-card, .key-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Table row hover effect enhancement
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                if (this.querySelector('td')) {
+                    this.style.background = 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(129, 140, 248, 0.1) 100%)';
+                }
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                if (this.querySelector('td')) {
+                    this.style.background = '';
+                }
+            });
+        });
+
+        // Add some sparkle effect to the hero background
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'absolute';
+            sparkle.style.width = '4px';
+            sparkle.style.height = '4px';
+            sparkle.style.background = 'rgba(99, 102, 241, 0.6)';
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animation = 'sparkle 2s ease-in-out infinite';
+            
+            document.querySelector('.hero-bg').appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Add sparkle animation
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkle {
+                0%, 100% { opacity: 0; transform: scale(0); }
+                50% { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(sparkleStyle);
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 800);
+    </script>
+</body>
+</html>

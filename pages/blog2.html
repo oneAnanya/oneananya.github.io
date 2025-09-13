@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ananya Says - Database Normalization</title>
+    <meta name="description" content="A comprehensive guide to database normalization with modern examples">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--secondary);
+            font-weight: 400;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--gradient-1);
+            opacity: 0.05;
+            z-index: -2;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            background: var(--surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+        }
+
+        .author-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--surface-hover);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .author-info:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .post-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: var(--gradient-1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-2);
+            transition: all 0.3s ease;
+        }
+
+        .section:nth-child(even)::before { background: var(--gradient-3); }
+        .section:nth-child(3n)::before { background: var(--gradient-4); }
+        .section:nth-child(4n)::before { background: var(--gradient-5); }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gradient-2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .table-container {
+            margin: 2rem 0;
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            background: var(--surface);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--gradient-1);
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: none;
+            position: relative;
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        tr:hover td {
+            background: var(--surface-hover);
+            transform: scale(1.01);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .nf-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--gradient-3);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(129, 140, 248, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--surface);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-1);
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .floating-nav {
+                display: none;
+            }
+            
+            th, td {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .author-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-container {
+                margin: 1rem -1rem;
+                border-radius: 0;
+            }
+            
+            th, td {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for sections appearing */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="progress-bar"></div>
+    
+    <div class="floating-nav">
+        <div class="nav-dot active" data-section="0"></div>
+        <div class="nav-dot" data-section="1"></div>
+        <div class="nav-dot" data-section="2"></div>
+        <div class="nav-dot" data-section="3"></div>
+        <div class="nav-dot" data-section="4"></div>
+        <div class="nav-dot" data-section="5"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="author-info">
+                <div class="author-avatar">A</div>
+                <div class="author-details">
+                    <div class="author-name">Ananya Mohapatra</div>
+                    <div class="post-date">04 March, 2024</div>
+                </div>
+            </div>
+            <h1 class="main-title">Database Normalization</h1>
+            <p class="subtitle">A comprehensive guide to organizing data efficiently and eliminating redundancy through systematic normalization forms</p>
+        </header>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Unnormalized Form (UNF)</h2>
+            <p>Initially, data may be unorganized with repeating groups and no clear structure. This is the starting point before any normalization process.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Key Issue:</strong> Data redundancy and potential inconsistencies make maintenance difficult.</p>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                            <th>Course</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ankita</td>
+                            <td>101</td>
+                            <td>PGDCA</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Ananya</td>
+                            <td>102</td>
+                            <td>Full Stack</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Archita</td>
+                            <td>103</td>
+                            <td>BI</td>
+                            <td>8 months</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>First Normal Form <span class="nf-badge">1NF</span></h2>
+            <p>1NF ensures each column contains atomic (indivisible) values, and each record is unique. No repeating groups are allowed.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Requirements:</strong> Atomic values, unique rows, and a primary key to identify each record.</p>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                            <th>Course</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ankita</td>
+                            <td>101</td>
+                            <td>PGDCA</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Ananya</td>
+                            <td>102</td>
+                            <td>Full Stack</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>Archita</td>
+                            <td>103</td>
+                            <td>BI</td>
+                            <td>8 months</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Second Normal Form <span class="nf-badge">2NF</span></h2>
+            <p>2NF removes partial dependencies. All non-key columns must depend on the entire primary key, not just part of it. Since our table has a single-column primary key (Student ID), it's already in 2NF.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Key Concept:</strong> Eliminates partial dependencies on composite primary keys.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Third Normal Form <span class="nf-badge">3NF</span></h2>
+            <p>3NF removes transitive dependencies. Non-key columns must not depend on other non-key columns. We split our table to eliminate these dependencies.</p>
+
+            <h3>📊 Students Table</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>Ankita</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>Ananya</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>Archita</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>🎓 Courses Table</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Course</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>PGDCA</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>Full Stack</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>BI</td>
+                            <td>8 months</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Boyce-Codd Normal Form <span class="nf-badge">BCNF</span></h2>
+            <p>BCNF is a stricter version of 3NF that ensures no non-trivial functional dependencies of attributes on anything other than a superkey. Our current tables already comply with BCNF.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Enhanced Rule:</strong> Every determinant must be a candidate key.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Fourth Normal Form <span class="nf-badge">4NF</span></h2>
+            <p>4NF deals with multi-valued dependencies. A table is in 4NF if it's in BCNF and has no multi-valued dependencies.</p>
+
+            <h3>🔄 Multi-valued Dependency Example</h3>
+            <p>When students can enroll in multiple courses and have multiple hobbies independently:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Hobby</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>101</td><td>Ankita</td><td>PGDCA</td><td>Painting</td></tr>
+                        <tr><td>101</td><td>Ankita</td><td>Full Stack</td><td>Painting</td></tr>
+                        <tr><td>101</td><td>Ankita</td><td>PGDCA</td><td>Reading</td></tr>
+                        <tr><td>101</td><td>Ankita</td><td>Full Stack</td><td>Reading</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>Full Stack</td><td>Dancing</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>BI</td><td>Dancing</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>Full Stack</td><td>Singing</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>BI</td><td>Singing</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>✅ 4NF Solution - Separate Tables</h3>
+            
+            <h4>📚 Student-Course Relationship</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>101</td><td>Ankita</td><td>PGDCA</td></tr>
+                        <tr><td>101</td><td>Ankita</td><td>Full Stack</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>Full Stack</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>BI</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>🎨 Student-Hobby Relationship</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Hobby</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>101</td><td>Ankita</td><td>Painting</td></tr>
+                        <tr><td>101</td><td>Ankita</td><td>Reading</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>Dancing</td></tr>
+                        <tr><td>102</td><td>Ananya</td><td>Singing</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="section-badge"></span>Fifth Normal Form <span class="nf-badge">5NF</span></h2>
+            <p>5NF deals with join dependencies. A table is in 5NF if it's in 4NF and cannot be decomposed into smaller tables without losing data.</p>
+
+            <h3>🔗 Join Dependency Example</h3>
+            <p>Recording which teacher teaches which course to which student:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Teacher</th>
+                            <th>Course</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>101</td><td>Mr. Sharma</td><td>PGDCA</td></tr>
+                        <tr><td>102</td><td>Mrs. Das</td><td>Full Stack</td></tr>
+                        <tr><td>103</td><td>Mr. Singh</td><td>BI</td></tr>
+                        <tr><td>101</td><td>Mr. Sharma</td><td>Full Stack</td></tr>
+                        <tr><td>102</td><td>Mrs. Das</td><td>BI</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>🎯 5NF Solution - Three Separate Tables</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <h4>👨‍🎓 Student-Course</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Student ID</th><th>Course</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>101</td><td>PGDCA</td></tr>
+                                <tr><td>101</td><td>Full Stack</td></tr>
+                                <tr><td>102</td><td>Full Stack</td></tr>
+                                <tr><td>103</td><td>BI</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>👨‍🏫 Course-Teacher</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Course</th><th>Teacher</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>PGDCA</td><td>Mr. Sharma</td></tr>
+                                <tr><td>Full Stack</td><td>Mrs. Das</td></tr>
+                                <tr><td>BI</td><td>Mr. Singh</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>🤝 Student-Teacher</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Student ID</th><th>Teacher</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>101</td><td>Mr. Sharma</td></tr>
+                                <tr><td>101</td><td>Mrs. Das</td></tr>
+                                <tr><td>102</td><td>Mrs. Das</td></tr>
+                                <tr><td>103</td><td>Mr. Singh</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <p><strong>🎉 Achievement Unlocked:</strong> All data is preserved accurately without redundancy. The database is now in Fifth Normal Form (5NF) with optimal structure and integrity.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Progress bar functionality
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrollPercent + '%';
+        }
+
+        // Navigation dots functionality
+        function updateNavDots() {
+            const sections = document.querySelectorAll('.section');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const scrollPos = window.scrollY + 200;
+
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    if (navDots[index]) {
+                        navDots[index].classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // Navigation dot click handlers
+        document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const sections = document.querySelectorAll('.section');
+                if (sections[index]) {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Smooth scrolling and animations
+        window.addEventListener('scroll', () => {
+            updateProgressBar();
+        }
+        )
+    </script>
+    </body>
+</html>

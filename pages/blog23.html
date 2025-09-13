@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Journey as a Software Development Intern</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --secondary: #f8fafc;
+      --accent: #06b6d4;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Inter',sans-serif;
+      line-height:1.7;
+      background:var(--secondary);
+      color:var(--text-primary);
+    }
+    .hero-bg {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:radial-gradient(circle at top left, rgba(99,102,241,0.1), transparent 40%),
+                 radial-gradient(circle at bottom right, rgba(6,182,212,0.1), transparent 40%);
+      z-index:-1;
+    }
+    .progress-bar {
+      position:fixed; top:0; left:0;
+      height:4px; width:0;
+      background:var(--gradient-1);
+      z-index:50;
+      transition:width .2s ease;
+    }
+    .container {
+      max-width:850px;
+      margin:0 auto;
+      padding:3rem 1.5rem;
+    }
+    .header {
+      text-align:center;
+      margin-bottom:3rem;
+      animation:fadeIn 1s ease;
+    }
+    .author-info {
+      display:flex; align-items:center; justify-content:center;
+      gap:12px; margin-bottom:1.2rem;
+    }
+    .author-avatar {
+      width:42px; height:42px;
+      border-radius:50%;
+      background:var(--gradient-2);
+      color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:600;
+    }
+    .author-details { text-align:left; }
+    .author-name { font-weight:600; font-size:15px; }
+    .post-date { display:block; font-size:13px; color:var(--text-secondary); }
+    .main-title {
+      font-size:2.7rem;
+      font-weight:800;
+      background:var(--gradient-1);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:1.2rem;
+      line-height:1.3;
+    }
+    .subtitle {
+      font-size:1.15rem;
+      color:var(--text-secondary);
+      max-width:650px;
+      margin:0 auto;
+    }
+    .section {
+      background:var(--surface);
+      border-radius:1rem;
+      padding:2rem;
+      box-shadow:var(--shadow);
+      margin-bottom:2.2rem;
+      transition:transform .25s ease, box-shadow .25s ease;
+      animation:fadeUp .6s ease;
+    }
+    .section:hover {
+      transform:translateY(-5px);
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+    }
+    .section h2 {
+      font-size:1.4rem;
+      margin-bottom:1rem;
+      display:flex; align-items:center;
+      gap:.5rem;
+      font-weight:700;
+      color:var(--text-primary);
+    }
+    .section-badge {
+      display:inline-block;
+      width:6px; height:20px;
+      border-radius:3px;
+      background:var(--gradient-3);
+    }
+    .highlight-box {
+      background:var(--surface-hover);
+      padding:1.2rem;
+      border-left:4px solid var(--primary);
+      border-radius:.6rem;
+      margin:1.5rem 0;
+      font-size:.95rem;
+      color:var(--text-secondary);
+    }
+    ul { margin-left:1.2rem; color:var(--text-secondary); }
+    ul li { margin:.4rem 0; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-15px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(25px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="author-info">
+        <div class="author-avatar">CJ</div>
+        <div class="author-details">
+          <span class="author-name">Career</span>
+          <span class="post-date">July 28, 2025</span>
+        </div>
+      </div>
+      <h1 class="main-title">My Journey as a Software Development Intern</h1>
+      <p class="subtitle">
+        Sharing my experiences, challenges, and learnings during my internship at NIELIT Bhubaneswar as an ML + MERN Stack developer and a lecturer.
+      </p>
+    </div>
+
+    <!-- Sections -->
+    <div class="section">
+      <h2><span class="section-badge"></span> Getting Started</h2>
+      <p>
+        My internship at NIELIT Bhubaneswar was the perfect mix of hands-on development and teaching experience. As a developer, I worked on projects involving Machine Learning models and full-stack applications using the MERN stack. At the same time, I had opportunities to step into a lecturer’s role, guiding students on programming and software development fundamentals.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Learning MERN Stack Development</h2>
+      <p>
+        One of my biggest takeaways was learning how to build scalable applications with the MERN stack:
+      </p>
+      <ul>
+        <li><b>MongoDB:</b> Understanding document-based data modeling.</li>
+        <li><b>Express.js:</b> Building robust backend APIs.</li>
+        <li><b>React:</b> Creating modern, interactive user interfaces.</li>
+        <li><b>Node.js:</b> Powering the server with asynchronous event-driven logic.</li>
+      </ul>
+      <div class="highlight-box">
+        💡 The internship helped me connect classroom theory with real-world web application challenges.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Diving into Machine Learning</h2>
+      <p>
+        Alongside web development, I had the chance to apply ML algorithms using Python, scikit-learn, and pandas. I worked on:
+      </p>
+      <ul>
+        <li>Data preprocessing and feature engineering</li>
+        <li>Training models like Linear Regression and Random Forest</li>
+        <li>Evaluating results with accuracy and error metrics</li>
+        <li>Deploying ML APIs for integration with web apps</li>
+      </ul>
+      <div class="highlight-box">
+        🚀 Combining ML with MERN gave me the confidence to think about AI-driven applications end-to-end.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Teaching as a Lecturer</h2>
+      <p>
+        Beyond coding, I enjoyed lecturing students on topics like Java, SQL, and software design principles. Teaching not only strengthened my fundamentals but also improved my communication skills. Some key highlights:
+      </p>
+      <ul>
+        <li>Delivering workshops on programming basics</li>
+        <li>Helping students debug and optimize their code</li>
+        <li>Explaining concepts with real-world project examples</li>
+      </ul>
+      <div class="highlight-box">
+        🎤 Teaching reminded me that the best way to learn deeply is to teach others.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Challenges I Faced</h2>
+      <p>
+        The journey was not without challenges. Balancing development deadlines with teaching responsibilities was tough. I also struggled initially with:
+      </p>
+      <ul>
+        <li>Switching between frontend and backend tasks efficiently</li>
+        <li>Explaining advanced concepts to beginners without overwhelming them</li>
+        <li>Optimizing ML models within limited time and resources</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Key Takeaways</h2>
+      <p>
+        My internship experience gave me a balanced exposure to technical development and academic teaching. Key learnings include:
+      </p>
+      <ul>
+        <li>Time management and prioritization</li>
+        <li>Collaborating with peers and mentors</li>
+        <li>Building a problem-solving mindset</li>
+        <li>Bridging theory and practice effectively</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Conclusion</h2>
+      <p>
+        My journey at NIELIT Bhubaneswar was more than just an internship—it was a transformation. As a developer, I honed my skills in MERN and ML. As a lecturer, I discovered the joy of sharing knowledge. Together, these roles shaped me into a more confident professional ready to take on future challenges.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>

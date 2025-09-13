@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Version Control Best Practices with Git</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f8fafc;
+      --accent: #06b6d4;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-3: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Inter',sans-serif;
+      line-height:1.7;
+      background:var(--secondary);
+      color:var(--text-primary);
+    }
+    .hero-bg {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:radial-gradient(circle at top left, rgba(99,102,241,0.08), transparent 40%),
+                 radial-gradient(circle at bottom right, rgba(6,182,212,0.08), transparent 40%);
+      z-index:-1;
+    }
+    .progress-bar {
+      position:fixed; top:0; left:0;
+      height:4px; width:0;
+      background:var(--gradient-5);
+      z-index:50;
+      transition:width .2s ease;
+    }
+    .container {
+      max-width:850px;
+      margin:0 auto;
+      padding:3rem 1.5rem;
+    }
+    .header {
+      text-align:center;
+      margin-bottom:3rem;
+      animation:fadeIn 1s ease;
+    }
+    .author-info {
+      display:flex; align-items:center; justify-content:center;
+      gap:12px; margin-bottom:1.2rem;
+    }
+    .author-avatar {
+      width:42px; height:42px;
+      border-radius:50%;
+      background:var(--gradient-3);
+      color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:600;
+    }
+    .author-details { text-align:left; }
+    .author-name { font-weight:600; font-size:15px; }
+    .post-date { display:block; font-size:13px; color:var(--text-secondary); }
+    .main-title {
+      font-size:2.7rem;
+      font-weight:800;
+      background:var(--gradient-3);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:1.2rem;
+      line-height:1.3;
+    }
+    .subtitle {
+      font-size:1.15rem;
+      color:var(--text-secondary);
+      max-width:650px;
+      margin:0 auto;
+    }
+    .section {
+      background:var(--surface);
+      border-radius:1rem;
+      padding:2rem;
+      box-shadow:var(--shadow);
+      margin-bottom:2.2rem;
+      transition:transform .25s ease, box-shadow .25s ease;
+      animation:fadeUp .6s ease;
+    }
+    .section:hover {
+      transform:translateY(-5px);
+      box-shadow:0 10px 20px rgba(0,0,0,.08);
+    }
+    .section h2 {
+      font-size:1.4rem;
+      margin-bottom:1rem;
+      display:flex; align-items:center;
+      gap:.5rem;
+      font-weight:700;
+      color:var(--text-primary);
+    }
+    .section-badge {
+      display:inline-block;
+      width:6px; height:20px;
+      border-radius:3px;
+      background:var(--gradient-3);
+    }
+    .highlight-box {
+      background:var(--surface-hover);
+      padding:1.2rem;
+      border-left:4px solid var(--primary-dark);
+      border-radius:.6rem;
+      margin:1.5rem 0;
+      font-size:.95rem;
+      color:var(--text-secondary);
+    }
+    pre {
+      background:#0f172a;
+      color:#e2e8f0;
+      padding:1rem;
+      border-radius:.6rem;
+      overflow-x:auto;
+      margin:1.2rem 0;
+      font-size:.9rem;
+    }
+    code { font-family:monospace; }
+    ul { margin:1rem 0 0 1.2rem; }
+    li { margin:.4rem 0; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-15px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(25px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="author-info">
+        <div class="author-avatar">G</div>
+        <div class="author-details">
+          <span class="author-name">Tutorial</span>
+          <span class="post-date">February 20, 2025</span>
+        </div>
+      </div>
+      <h1 class="main-title">Version Control Best Practices with Git</h1>
+      <p class="subtitle">
+        Essential Git commands and workflows every developer should know for effective collaboration and code management.
+      </p>
+    </div>
+
+    <!-- Sections -->
+    <div class="section">
+      <h2><span class="section-badge"></span> Why Version Control?</h2>
+      <p>
+        Version control is the foundation of modern software development. Git allows teams to collaborate, track changes, and roll back when needed. Without it, managing codebases becomes error-prone and chaotic.
+      </p>
+      <div class="highlight-box">
+        💡 Git is not just for teams — even solo developers benefit from version history and backups.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Common Git Commands</h2>
+      <p>Every developer should be comfortable with these commands:</p>
+      <pre><code># Initialize a repository
+git init
+
+# Clone a repo
+git clone &lt;url&gt;
+
+# Stage and commit
+git add .
+git commit -m "message"
+
+# Push changes
+git push origin main
+
+# Pull changes
+git pull origin main
+</code></pre>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Branching Strategy</h2>
+      <p>
+        Branches help isolate work and avoid conflicts. Popular strategies include:
+      </p>
+      <ul>
+        <li><strong>Feature branches</strong>: Create a branch per feature.</li>
+        <li><strong>Gitflow</strong>: Structured with main, develop, and release branches.</li>
+        <li><strong>Trunk-based</strong>: Commit frequently to main with feature flags.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Best Practices</h2>
+      <ul>
+        <li>Write meaningful commit messages.</li>
+        <li>Keep commits small and focused.</li>
+        <li>Pull frequently to stay updated.</li>
+        <li>Use <code>.gitignore</code> to exclude unnecessary files.</li>
+        <li>Always review code before merging.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2><span class="section-badge"></span> Conclusion</h2>
+      <p>
+        Git empowers developers to work efficiently and collaboratively. By following best practices, you can reduce merge conflicts, keep your history clean, and ensure smoother teamwork.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>
